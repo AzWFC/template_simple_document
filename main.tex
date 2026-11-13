@@ -1,0 +1,196 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper, top=2.75cm, bottom=2.5cm, left=2.25cm, right=2.25cm]{geometry}
+
+% ==================================================
+% CUSTOMISATION
+% ==================================================
+
+% ---------- Document Information ----------
+\newcommand{\DocumentTitle}{\textcolor{red}{[Fill in Document Title]}}
+\newcommand{\ShortTitle}{\textcolor{red}{[Fill in Short Title]}}
+\newcommand{\AuthorName}{\textcolor{red}{[Fill in Author Name]}}
+
+% ---------- Line & Paragraph Spacing ----------
+\usepackage{setspace}
+\newcommand{\mylinespread}{1.25}
+\newcommand{\mypargap}{0.5}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\mypargap\baselineskip}
+
+\usepackage[acronym]{glossaries}
+\newacronym{llm}{LLM}{large language model}
+
+% ==================================================
+% FONTS (XeLaTeX / LuaLaTeX)
+% ==================================================
+\usepackage{fontspec}
+\usepackage[sc]{mathpazo}
+
+\setmainfont[
+    UprightFeatures={FontIndex=0},
+    BoldFeatures={FontIndex=1},
+    ItalicFeatures={FontIndex=2},
+    BoldItalicFeatures={FontIndex=3}
+]{Optima.ttc}
+
+\newfontfamily\PTSansFont[
+    UprightFeatures={FontIndex=0},
+    ItalicFeatures={FontIndex=1},
+    BoldFeatures={FontIndex=2, LetterSpace=1.2},
+    BoldItalicFeatures={FontIndex=3}
+]{PT Sans}
+
+% ==================================================
+% HEADER / FOOTER
+% ==================================================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{\PTSansFont\footnotesize \ShortTitle}
+\fancyhead[C]{\PTSansFont\small Page \thepage}
+\fancyhead[R]{\PTSansFont\footnotesize \AuthorName}
+
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ==================================================
+% SECTION TITLE FORMAT & SPACING
+% ==================================================
+\usepackage{titlesec}
+\newcommand{\sectionlinespacing}{\setstretch{1}}
+
+\titleformat{\section}
+    {\sectionlinespacing\PTSansFont\large\bfseries}
+    {\thesection}
+    {1em}
+    {}
+
+\titleformat{\subsection}
+    {\sectionlinespacing\PTSansFont\normalsize\bfseries}
+    {\thesubsection}
+    {1em}
+    {}
+
+\titleformat{\subsubsection}
+    {\sectionlinespacing\PTSansFont\normalsize\bfseries}
+    {\thesubsubsection}
+    {1em}
+    {}
+
+\titlespacing*{\section}{0pt}{1.5em}{0.5em}
+\titlespacing*{\subsection}{0pt}{1em}{0em}
+\titlespacing*{\subsubsection}{0pt}{0.5em}{0em}
+
+% ==================================================
+% TYPOGRAPHY, LISTS & PLACEHOLDER TEXT
+% ==================================================
+\usepackage{microtype}
+\hyphenpenalty=10000
+\exhyphenpenalty=50
+\emergencystretch=2em
+
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=0.2em, topsep=0.2em, partopsep=0pt, parsep=0pt, leftmargin=1.5em}
+\setlist[enumerate]{itemsep=0.2em, topsep=0.2em, partopsep=0pt, parsep=0pt, leftmargin=1.5em}
+
+% ==================================================
+% COLOURS & HYPERLINKS
+% ==================================================
+\usepackage{xcolor}
+\definecolor{linkblue}{HTML}{0253b0}
+
+\usepackage{xurl}
+\Urlmuskip=0mu plus 1mu
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=linkblue,
+    citecolor=linkblue,
+    filecolor=black,
+    menucolor=black,
+    urlcolor=linkblue
+]{hyperref}
+
+% ==================================================
+% BIBLIOGRAPHY
+% ==================================================
+\usepackage{csquotes}
+\usepackage[
+    backend=biber,
+    style=apa,
+    natbib=true,
+    doi=true,
+    url=true,
+    isbn=false
+]{biblatex}
+
+\addbibresource{refs.bib}
+\setcounter{biburlucpenalty}{8000}
+
+\DeclareFieldFormat{citehyperref}{\bibhyperref{#1}}
+
+\DeclareCiteCommand{\citep}[\mkbibparens]
+    {\usebibmacro{prenote}}
+    {%
+        \printtext[bibhyperref]{%
+            \printnames{labelname}%
+            \setunit{\nameyeardelim}%
+            \printfield{labelyear}%
+            \printfield{extradate}%
+        }%
+    }
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\citeA}
+    {\usebibmacro{prenote}}
+    {%
+        \printtext[bibhyperref]{%
+            \printnames{labelname}\space
+            (\printfield{labelyear}\printfield{extradate})%
+        }%
+    }
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\citeAY}
+    {\usebibmacro{prenote}}
+    {%
+        \printtext[bibhyperref]{%
+            \printnames{labelname}%
+            \setunit{\nameyeardelim}%
+            \printfield{labelyear}%
+            \printfield{extradate}%
+        }%
+    }
+    {\multicitedelim}
+    {\usebibmacro{postnote}}
+
+% ==================================================
+% DOCUMENT START
+% ==================================================
+\begin{document}
+\setstretch{\mylinespread}
+
+% ---------- Title Block ----------
+\begin{center}
+    {\PTSansFont\huge\textbf{\DocumentTitle}}\\[1em]
+    {\PTSansFont\Large\textbf{\AuthorName}}
+\end{center}
+\vspace{-1.8em}
+
+% ---------- Body Content ----------
+\input{content}
+
+% ==================================================
+% REFERENCES (Uncomment when citing from refs.bib)
+% ==================================================
+% \clearpage
+% \begingroup
+% \setstretch{1}
+% \setlength{\bibitemsep}{0.5em}
+% \printbibliography
+% \endgroup
+
+\end{document}
